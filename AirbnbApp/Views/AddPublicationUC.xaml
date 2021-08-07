@@ -1,0 +1,556 @@
+﻿<UserControl x:Class="AirbnbApp.Views.AddPublicationUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AirbnbApp.Views"
+             xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+             xmlns:materialDesign ="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             x:Name="AddPublication"
+             d:DesignHeight="2000" d:DesignWidth="1000" Background="White">
+    
+    
+    
+    <UserControl.Resources>
+        <DataTemplate x:Key="ListBoxKey">
+            <StackPanel>
+                <Image Height="100" Width="150" Source="{Binding ImagePath}"/>
+                <Button Command="{Binding ElementName = AddPublication, Path = DataContext.DeletePhoto}" CommandParameter="{Binding}" Margin="5" Width="100" Content="X"/>
+            </StackPanel>
+        </DataTemplate>
+        
+        <Style x:Key="TextBlockKey" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=RadioButton1,Path=IsChecked}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="RadioButtonKey" TargetType="m:Map">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=RadioButtonLocation1,Path=IsChecked}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+ 
+            </Style.Triggers>
+        </Style>
+
+
+
+
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer>
+            <StackPanel Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Image x:Name="testname"/>
+            
+                <TextBlock Text="Hi, Dead! Let's get started listing your space."
+                       HorizontalAlignment="Center"
+                       FontSize="20"
+                       Margin="0,20,0,10"
+                       Style="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
+
+                <TextBlock 
+                       Text="Where's your place located?"
+                       FontSize="15"
+                       Margin="10"/>
+                <m:Map Name="Map" Margin="5"
+                           Height="300" Width="400"
+                           MouseRightButtonDown="Map_MouseRightButtonDown_1" 
+                   CredentialsProvider="AmNHI1OE361KWO9unJKN-DioETmrzrQMOtEnf61kmtI5E3tSni0p_FhOEzKldL_e">
+                    <m:Pushpin Name="PushPin" Location="{Binding CurrLoc}"/>
+                </m:Map>
+
+               
+
+                <ComboBox   ItemsSource="{Binding Countries,ValidatesOnDataErrors=True,ValidatesOnNotifyDataErrors=True}"
+                    SelectedItem="{Binding SelectedCountry,ValidatesOnDataErrors=True,ValidatesOnNotifyDataErrors=True}" Width="270"
+                     
+                     FontSize="16"
+                     Margin="5"
+                     
+                     HorizontalAlignment="Left"
+                     materialDesign:HintAssist.Hint="Select country"
+                     materialDesign:TextFieldAssist.HasFilledTextField="True"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="5"
+                     materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                     Style="{StaticResource MaterialDesignFilledComboBox}"
+                     materialDesign:TextFieldAssist.HasOutlinedTextField="True">
+
+                </ComboBox>
+
+                <ComboBox   ItemsSource="{Binding Cities,ValidatesOnDataErrors=True,ValidatesOnNotifyDataErrors=True}"
+                    SelectedItem="{Binding SelectedCity,ValidatesOnDataErrors=True,ValidatesOnNotifyDataErrors=True,UpdateSourceTrigger=PropertyChanged}" Width="270"
+                     
+                     FontSize="16"
+                     Margin="5"
+                     
+                     HorizontalAlignment="Left"
+                     materialDesign:HintAssist.Hint="Select city"
+                     materialDesign:TextFieldAssist.HasFilledTextField="True"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="5"
+                     materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                     Style="{StaticResource MaterialDesignFilledComboBox}"
+                     materialDesign:TextFieldAssist.HasOutlinedTextField="True">
+
+                </ComboBox>
+
+
+                <TextBox Style="{StaticResource MaterialDesignTextBox}" HorizontalAlignment="Left"
+                     Width="270"
+                     FontSize="16"
+                     Margin="5"
+                     Text="{Binding Address,ValidatesOnDataErrors=True,ValidatesOnNotifyDataErrors=True}"
+                     materialDesign:HintAssist.Hint="Adress"
+                     materialDesign:TextFieldAssist.HasFilledTextField="True"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="5"/>
+                
+                <TextBox Style="{StaticResource MaterialDesignTextBox}" HorizontalAlignment="Left"
+                     Width="270"
+                     FontSize="16"
+                     Margin="5"
+                     Text="{Binding Number,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnNotifyDataErrors=True}"
+                     materialDesign:HintAssist.Hint="Phone number"
+                     materialDesign:TextFieldAssist.HasFilledTextField="True"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="5"/>
+
+
+
+
+
+                <TextBlock Text="What kind of place are you listing?"
+                       FontSize="15"
+                        Margin="10"/>
+
+
+                <ComboBox x:Name="ComboBox1"                          
+                          Width="270"
+                          SelectedItem="{Binding HomeTypeComboBox,
+                          UpdateSourceTrigger=PropertyChanged}"
+                     
+                     FontSize="16"
+                     Margin="5"                     
+                     HorizontalAlignment="Left"
+                     materialDesign:HintAssist.Hint="Select one"
+                     materialDesign:TextFieldAssist.HasFilledTextField="True"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="5"
+                     materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                     Style="{StaticResource MaterialDesignFilledComboBox}"
+                     materialDesign:TextFieldAssist.HasOutlinedTextField="True">
+
+                </ComboBox>
+
+
+                <TextBlock Text="Confirm the type of place guests will have"
+                       FontSize="15"
+                        Margin="10"/>
+
+                <ComboBox x:Name="ComboBox2"  SelectedItem="{Binding PlaceType}" Width="270"                     
+                     FontSize="16"
+                     Margin="5"                     
+                     HorizontalAlignment="Left"
+                     materialDesign:HintAssist.Hint="Select one"
+                     materialDesign:TextFieldAssist.HasFilledTextField="True"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="5"
+                     materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                     Style="{StaticResource MaterialDesignFilledComboBox}"
+                     materialDesign:TextFieldAssist.HasOutlinedTextField="True">                   
+                </ComboBox>
+
+                <TextBlock Text="What's the price ?"
+                       FontSize="15"
+                        Margin="10"/>
+
+                <TextBox HorizontalAlignment="Left"
+                     Width="270"
+                     FontSize="16"
+                     Margin="5"
+                     Text="{Binding Price,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnNotifyDataErrors=True}"
+                     materialDesign:HintAssist.Hint="Price"
+                     materialDesign:TextFieldAssist.HasFilledTextField="True"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="5"/>
+
+
+
+                <TextBlock Text="Which best describes how you host?"
+                       FontSize="15"
+                        Margin="10"
+                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+
+                <RadioButton GroupName="SecondGroup"  x:Name="RadioButton1"  Content="I'm hosting as part of a business"
+                         FontSize="15"
+                         Margin="5"
+                         IsChecked="{Binding FirstRadioButton}"/>
+
+                <TextBlock  Margin="26,0,0,0" >
+                <Run Text="You're typically a business if hosting on Airbnb is your primary"/>
+                <LineBreak/>
+                <Run Text="profession or source of income, or if you're part of an established"/>
+                <LineBreak/>
+                <Run Text="business, like a boutique hotel or property management company."/>
+                </TextBlock>
+                
+                <TextBlock Style="{StaticResource TextBlockKey}"  Margin="26,0,0,0" >
+                <LineBreak/>
+                <Run Text="Are you based in the European Economic Area (EEA)? To comply with"/>
+                <LineBreak/>
+                <Run Text="your legal obligations as a business, please fill out the business details"/>
+                <LineBreak/>
+                <Run Text="section in your account after you publish your listing."/>
+                </TextBlock>
+
+
+                <RadioButton GroupName="SecondGroup" Content="I'm hosting as a private individual"
+                         FontSize="15"
+                         Margin="5,25,5,5"
+                          IsChecked="{Binding SecondRadioButton}"/>
+                <TextBlock Margin="26,0,0,0">
+                <Run Text="You're typically a private individual if hosting on Airbnb isn't your"/>
+                <LineBreak/>
+                <Run Text="primary profession or source of income."/>
+                </TextBlock>
+
+
+                <TextBlock Margin="5,25,0,0" 
+                           Text="How many guests can your place accommodate ?"
+                           FontSize="15"
+                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+
+                <StackPanel Margin="5,25,0,0" Orientation="Horizontal">
+                    <TextBlock FontSize="15" FontStyle="Italic" Text="Adults"/>
+                    <Button Width="30" Height="30" Margin="100,0,0,0" Background="Red"
+                        Command="{Binding AdultMinusButton}"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                        <materialDesign:PackIcon
+                          Kind="Minus"
+                          Height="15"
+                          Width="15" />
+                    </Button>
+
+                    <TextBlock Margin="40,0,0,0" FontSize="20" Text="{Binding NumberOfAdult}"/>
+
+                    <Button Width="30" Height="30" Margin="40,0,0,0"
+                            Command="{Binding AdultPilusButton}"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                        <materialDesign:PackIcon
+                          Kind="Plus"
+                          Height="15"
+                          Width="15" />
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Margin="5,25,0,0" Orientation="Horizontal">
+                    <TextBlock FontSize="15" FontStyle="Italic" Text="Children"/>
+                    <Button Width="30" Height="30" Margin="85,0,0,0" Background="Red"
+                        Command="{Binding ChildMinusButton}"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                        <materialDesign:PackIcon
+                          Kind="Minus"
+                          Height="15"
+                          Width="15" />
+                    </Button>
+
+                    <TextBlock Margin="40,0,0,0" FontSize="20" Text="{Binding NumberOfChild}"/>
+
+                    <Button Width="30" Height="30" Margin="40,0,0,0"
+                            Command="{Binding ChildPilusButton}"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                        <materialDesign:PackIcon
+                          Kind="Plus"
+                          Height="15"
+                          Width="15" />
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Margin="5,25,0,0" Orientation="Horizontal">
+                    <TextBlock FontSize="15" FontStyle="Italic" Text="Infant"/>
+                    <Button Width="30" Height="30" Margin="100,0,0,0" Background="Red"
+                        Command="{Binding InfantMinusButton}"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                        <materialDesign:PackIcon
+                          Kind="Minus"
+                          Height="15"
+                          Width="15" />
+                    </Button>
+
+                    <TextBlock Margin="40,0,0,0" FontSize="20" Text="{Binding NumberOfInfant}"/>
+
+                    <Button Width="30" Height="30" Margin="40,0,0,0"
+                            Command="{Binding InfantPilusButton}"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                        <materialDesign:PackIcon
+                          Kind="Plus"
+                          Height="15"
+                          Width="15" />
+                    </Button>
+                </StackPanel>
+
+                <TextBlock Margin="5,25,0,0" 
+                           Text="How many bedrooms can guests use ?"
+                           FontSize="15"
+                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+
+                <StackPanel Margin="5,25,0,0" Orientation="Horizontal">
+                    <TextBlock FontSize="15" FontStyle="Italic" Text="Bedrooms"/>
+                    <Button Width="30" Height="30" Margin="77,0,0,0" Background="Red"
+                        Command="{Binding BedroomMinusButton}"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                        <materialDesign:PackIcon
+                          Kind="Minus"
+                          Height="15"
+                          Width="15" />
+                    </Button>
+
+                    <TextBlock Margin="40,0,0,0" FontSize="20" Text="{Binding NumberOfBedroom}"/>
+
+                    <Button Width="30" Height="30" Margin="40,0,0,0"
+                            Command="{Binding BedroomPilusButton}"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                        <materialDesign:PackIcon
+                          Kind="Plus"
+                          Height="15"
+                          Width="15" />
+                    </Button>
+                </StackPanel>
+   
+                <TextBlock Margin="5,25,0,0" 
+                           Text="How many bathrooms ?"
+                           FontSize="15"/>
+
+                <StackPanel Margin="5,25,0,0" Orientation="Horizontal">
+                    <TextBlock FontSize="15" FontStyle="Italic" Text="Bathrooms"/>
+                    <Button Width="30" Height="30" Margin="70,0,0,0" Background="Red"
+                        Command="{Binding BathroomMinusButton}"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                        <materialDesign:PackIcon
+                          Kind="Minus"
+                          Height="15"
+                          Width="15" />
+                    </Button>
+
+                    <TextBlock Margin="40,0,0,0" FontSize="20" Text="{Binding NumberOfBathroom}"/>
+
+                    <Button Width="30" Height="30" Margin="40,0,0,0"
+                            Command="{Binding BathroomPilusButton}"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                        <materialDesign:PackIcon
+                          Kind="Plus"
+                          Height="15"
+                          Width="15" />
+                    </Button>
+
+                </StackPanel>
+                <TextBlock Text="What amenities do you offer ?"
+                       FontSize="15"
+                        Margin="5,25,0,10" Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+
+
+                <StackPanel>
+                    <ListBox ItemsSource="{Binding AddedAmenities}"
+                         >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="200"/>
+                                        <ColumnDefinition Width="65"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <materialDesign:PackIcon Kind="{Binding Icon}" 
+                                                             Width="24" Height="24"
+                                                             Grid.Column="0" VerticalAlignment="Center"/>
+
+                                    <TextBlock Text="{Binding Name}" 
+                                               FontSize="16"
+                                               Grid.Column="1" VerticalAlignment="Center"/>
+
+                                    <Button Content="❌" Command="{Binding ElementName = AddPublication, Path = DataContext.RemoveAmenityCommand}"
+                                            CommandParameter="{Binding}" FontSize="10" Grid.Column="2" Margin="5" 
+                                            VerticalAlignment="Center"/>
+
+
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                    </ListBox>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ComboBox Grid.Column="0"
+                                  ItemsSource="{Binding Amenities}"
+                                  SelectedItem="{Binding SelectedAmenity ,UpdateSourceTrigger=PropertyChanged}"
+                                  materialDesign:HintAssist.Hint="Select amenity" FontSize="16">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <materialDesign:PackIcon Kind="{Binding Icon}" 
+                                                         Width="24" Height="24"
+                                                         Grid.Column="0"/>
+
+                                        <TextBlock Text="{Binding Name}" 
+                                           FontSize="16"
+                                           Grid.Column="1"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Content="Add" Command="{Binding AddAmenityCommand}" 
+                                Grid.Column="1" 
+                                Margin="5"/>
+                    </Grid>
+                </StackPanel>
+
+                <Button Command="{Binding NextButtonCommand}" Margin="5,25,5,5" Content="Next"/>
+                
+                <!--<CheckBox Style="{StaticResource MaterialDesignCheckBox}"
+                          Content="Essentials" Margin="5"
+                          IsChecked="{Binding Essentials}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <TextBlock Text="Towels, bed sheets, soap, toilet paper, and pillows"
+                           Margin="35,2,0,0"
+                           FontSize="13"
+                           FontWeight="Medium"/>
+
+                <CheckBox Margin="5,20,0,5" Style="{StaticResource MaterialDesignCheckBox}"
+                          Content="Cooking basics"
+                          IsChecked="{Binding CookingBasics}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <TextBlock Text="Pots and pans, oil, salt and pepper"
+                           Margin="35,2,0,0"
+                           FontSize="13"
+                           FontWeight="Medium"/>
+
+                <CheckBox Margin="5,20,0,5" Style="{StaticResource MaterialDesignCheckBox}"
+                          Content="Desk/workspace"
+                          IsChecked="{Binding Deskworkspace}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <CheckBox Margin="5,20,0,5" Style="{StaticResource MaterialDesignCheckBox}"
+                          Content="Iron household tools"
+                          IsChecked="{Binding IronHousehold}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <CheckBox Margin="5,20,0,5" Style="{StaticResource MaterialDesignCheckBox}"
+                          Content="Hair dryer"
+                          IsChecked="{Binding Hairdryer}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <CheckBox Margin="5,20,0,5" Style="{StaticResource MaterialDesignCheckBox}"
+                          Content="Shampoo"
+                          IsChecked="{Binding Shampoo}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <CheckBox Margin="5,20,0,5" Style="{StaticResource MaterialDesignCheckBox}"
+                          Content="Hangers"
+                          IsChecked="{Binding Hangers}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <CheckBox Margin="5,20,0,5" Style="{StaticResource MaterialDesignCheckBox}"
+                          Content="TV"
+                          IsChecked="{Binding TV}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <CheckBox Margin="5,20,0,5" Style="{StaticResource MaterialDesignCheckBox}"
+                          Content="WIFI"
+                          IsChecked="{Binding WIFI}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <Button Command="{Binding NextButtonCommand}" Margin="5,25,5,5" Content="Next"/>
+                --><!--<Image x:Name="sdf" /> MaterialDesignCheckBox-->
+
+            </StackPanel>
+        </ScrollViewer>
+
+
+        <Grid Grid.Column="1" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="500"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <ListBox Height="150" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Collection,
+                ValidatesOnDataErrors=True,
+                ValidatesOnNotifyDataErrors=True}" 
+                     ItemTemplate="{StaticResource ListBoxKey}"
+                     materialDesign:ListBoxAssist.IsToggle="False"
+                     SelectedIndex="{Binding SelectedIndex,ValidatesOnDataErrors=True,
+                ValidatesOnNotifyDataErrors=True}"/>
+
+            <Button  AllowDrop="True" 
+                    VerticalAlignment="Top" Height="500" 
+                    Background="LightGray"
+                    Drop="Button_Drop">
+                <Grid Margin="-14,-2,-14,-2">
+                    <Label Content="Drag And Drop" FontSize="35" 
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+                    <Image x:Name="ImageInsideOfImage"  Stretch="Uniform"  Source="{Binding ButtonPic}"/>
+                </Grid>
+
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

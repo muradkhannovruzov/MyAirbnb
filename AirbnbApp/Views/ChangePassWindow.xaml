@@ -1,0 +1,126 @@
+﻿<Window x:Class="AirbnbApp.Views.ChangePassWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AirbnbApp.Views"
+        
+        WindowStyle="None"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        x:Name="ChangePassWin"
+        Title="Change password" Height="275" MaxHeight="275" MinHeight="275"
+        Width="375" MinWidth="375" MaxWidth="375" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+            <RowDefinition Height="45"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="GridBarraTitulo" Grid.Row="0" MouseDown="GridBarraTitulo_MouseDown" Background="#FF2C2B2B">
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0">
+
+                <Button x:Name="ButtonFechar" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" 
+                        Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" 
+                        Foreground="White" Click="ButtonFechar_Click">
+                    <materialDesign:PackIcon Kind="Power"/>
+                </Button>
+
+            </StackPanel>
+        </Grid>
+
+
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <PasswordBox Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                     Width="225"
+                     x:Name="cuPass"
+                     FontSize="12"
+                     Padding="7"
+                     Margin="10,10,10,20"
+                     materialDesign:HintAssist.Hint="Current password"
+                     materialDesign:TextFieldAssist.HasFilledTextField="True"
+                     materialDesign:TextFieldAssist.UnderlineBrush="Gray"
+                     materialDesign:TextFieldAssist.HasClearButton="True"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="5"/>
+
+
+
+            <PasswordBox Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                     Width="225"
+                     FontSize="12"
+                     Padding="7"
+                     x:Name="nPass"
+                     Margin="10"
+                     materialDesign:HintAssist.Hint="New password"
+                     materialDesign:TextFieldAssist.HasFilledTextField="True"
+                     materialDesign:TextFieldAssist.UnderlineBrush="Gray"
+                     materialDesign:TextFieldAssist.HasClearButton="True"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="5"/>
+
+
+
+            <PasswordBox Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                     Width="225"
+                     FontSize="12"
+                     Padding="7"
+                     x:Name="coPass"
+                     Margin="10"
+                     materialDesign:HintAssist.Hint="Confirm password"
+                     materialDesign:TextFieldAssist.HasFilledTextField="True"
+                     materialDesign:TextFieldAssist.UnderlineBrush="Gray"
+                     materialDesign:TextFieldAssist.HasClearButton="True"
+                     materialDesign:TextFieldAssist.TextFieldCornerRadius="5"/>
+
+
+            <Label Content="{Binding LableContent, UpdateSourceTrigger=PropertyChanged}"
+                   Visibility="{Binding LableVisibility, UpdateSourceTrigger=PropertyChanged}"
+                   Foreground="Red"
+                   
+                   />
+
+
+
+        </StackPanel>
+
+
+
+
+        <Grid Grid.Row="2" Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+
+
+            <Button Content="Change" Margin="30,7,30,7"
+                    CommandParameter="{Binding ElementName=ChangePassWin}"
+                    Command="{Binding ChangeCommand}"
+                    Grid.Column="0"
+                    FontSize="12"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    materialDesign:ButtonAssist.CornerRadius="5"
+                    Background="#FF594550"
+                    />
+
+
+
+            <Button Content="Close" Margin="30,7,30,7"
+                    Grid.Column="1"
+                    FontSize="12"
+                    Command="{Binding CancelCommand}"
+                    CommandParameter="{Binding ElementName=ChangePassWin}"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Foreground="#FF594550"
+                    materialDesign:ButtonAssist.CornerRadius="5"
+                    Style="{StaticResource MaterialDesignOutlinedButton}" Background="#00000000"/>
+        </Grid>
+    </Grid>
+</Window>

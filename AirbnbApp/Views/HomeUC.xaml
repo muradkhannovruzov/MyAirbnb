@@ -1,0 +1,219 @@
+﻿<UserControl x:Class="AirbnbApp.Views.HomeUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AirbnbApp.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+             mc:Ignorable="d"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             Background="White"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="700" d:DesignWidth="900">
+    <UserControl.Resources>
+
+        <DataTemplate x:Key="ListBoxKey3">
+            <StackPanel Orientation="Horizontal">
+                <Image Stretch="Fill" Height="100" Width ="100"  Source="{Binding}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ListboxKey2">
+            <StackPanel Orientation="Horizontal">
+                <ListBox ItemTemplate="{StaticResource ListBoxKey3}" ItemsSource="{Binding Home.ImageSource}"/>
+                <materialDesign:RatingBar Value="{Binding Rating}" IsEnabled="False"/>
+            </StackPanel>
+        </DataTemplate>
+
+
+
+        <Style x:Key="StackPanelKey" TargetType="StackPanel">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ListBox1,Path=SelectedIndex}" Value="-1">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ListBox1,Path=SelectedIndex}" Value="0">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ListBox1,Path=SelectedIndex}" Value="1">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ListBox1,Path=SelectedIndex}" Value="2">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ListBox1,Path=SelectedIndex}" Value="3">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="105"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <!--<Image  Grid.RowSpan="2" Stretch="Fill" Grid.ColumnSpan="2" x:Name="qqq"
+              Source="C:\Users\Samur\OneDrive\Masaüstü\Airbnb\AirbnbApp\Images\ian-keefe-OgcJIKRnRC8-unsplash.jpg"/>-->
+
+        <ListBox Grid.ColumnSpan="2" x:Name="ListBox1" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignChoiceChipAccentListBox}">
+                 
+
+            <ListBoxItem Margin="0,10,10,0" Style="{StaticResource MaterialDesignListBoxItem}">
+
+                <StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,3">
+                        </TextBlock>
+                        <TextBox Text="{Binding City,UpdateSourceTrigger=PropertyChanged}" MinWidth="200" FontSize="15" Margin="5"/>
+                        <Button materialDesign:ButtonAssist.CornerRadius="12" 
+                            Margin="10,5,10,10"
+                            Width="100"
+                            Background="OrangeRed"
+                            Content="{Binding Shearch,UpdateSourceTrigger=PropertyChanged}"
+                            Command="{Binding SearchButton}"/>
+                    </StackPanel>
+                    <StackPanel Style="{StaticResource StackPanelKey}" Orientation="Horizontal">
+                        <TextBlock FontSize="15" FontStyle="Italic" Text="Count"/>
+                        <Button Width="20" Height="20" Margin="35,0,0,0" Background="Red"
+                    Command="{Binding GuestMinusButton}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                    ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                            <materialDesign:PackIcon
+                      Kind="Minus"
+                      Height="15"
+                      Width="15" />
+                        </Button>
+                        <TextBlock Margin="30,0,0,0" Foreground="Red" FontSize="14" Text="{Binding CountOfGuest}"/>
+
+                        <Button Width="20" Height="20" Margin="30,0,0,0"
+                        Command="{Binding GuestPilusButton}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                    ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                            <materialDesign:PackIcon
+                      Kind="Plus"
+                      Height="15"
+                      Width="15" />
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </ListBoxItem>
+        </ListBox>
+
+        <ListBox x:Name="PublicationList" Grid.Row="1" SelectedItem="{Binding TheSelectedItem}" ItemsSource="{Binding MyList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Height="150" Width="150" Source="{Binding Home.ImageSource[0],UpdateSourceTrigger=PropertyChanged}"/>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                                <TextBlock FontSize="20" IsEnabled="False" Text="{Binding Home.Address,StringFormat=Address: {0}}"/>
+                                <TextBlock FontSize="20" IsEnabled="False" Text="{Binding Home.Price,StringFormat=Price: {0}}"/>
+                                <TextBlock FontSize="20" Text="{Binding Home.HomeType,StringFormat=Type: {0}}"/>
+                                <StackPanel Orientation="Horizontal" Margin="10">
+                                    <TextBlock FontSize="20" Text="👁" Margin="5"/>
+                                    <TextBlock FontSize="20" Margin="5" Text="{Binding Review}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="20" Text="{Binding Rating}"/>
+                            <TextBlock FontSize="25" Foreground="Yellow" Text="⭐"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding SelectCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListBox>
+
+
+        <m:Map Grid.Column="1" Grid.Row="1"  Name="Map" Margin="15"
+               ZoomLevel="4"
+               CredentialsProvider="AmNHI1OE361KWO9unJKN-DioETmrzrQMOtEnf61kmtI5E3tSni0p_FhOEzKldL_e">
+        </m:Map>
+
+    </Grid>
+
+    <!--<Grid Background="#FFEEEEEE" MouseDown="Grid_MouseDown">
+        <StackPanel VerticalAlignment="Top">
+            <Grid Background="#FF0069C0" Height="10"/>
+            <Grid Margin="5">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10 0">
+                    <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Foreground="Gray">
+                        <materialDesign:PackIcon Kind="BellOutline"/>
+                    </Button>
+                    <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Foreground="Gray" Margin="0 0 10 0">
+                        <materialDesign:PackIcon Kind="Settings"/>
+                    </Button>
+                    <Button x:Name="ButtonFechar" Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Foreground="Gray" Click="ButtonFechar_Click">
+                        <materialDesign:PackIcon Kind="Power"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <Grid Margin="250 55 0 0">
+            <Grid x:Name="GridPrincipal" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+
+        <Grid Width="250" HorizontalAlignment="Left" Background="#FF222222">
+            <materialDesign:TransitioningContent x:Name="TrainsitionigContentSlide" OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft, Duration=0:0:0.2}">
+                <Grid x:Name="GridCursor" Margin="0 100 0 0" Background="#FF0069C0" Width="10" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"/>
+            </materialDesign:TransitioningContent>
+            <ListView x:Name="ListViewMenu" Margin="0 100" Foreground="LightGray" FontFamily="Champagne &amp; Limousines" FontSize="18" SelectionChanged="ListViewMenu_SelectionChanged" SelectedIndex="0">
+                <ListViewItem Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Home" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Início" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="FoodForkDrink" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Escolha" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="FormatListBulleted" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Cardápio" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="TruckDelivery" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Entrega" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Cash" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Pagamento de Entrega" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="AccountStar" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Clientes" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+        </Grid>
+
+    </Grid>-->
+</UserControl>
